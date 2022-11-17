@@ -18,6 +18,7 @@ public class DiscordConfiguration {
         String token = env.getProperty("TOKEN");
         DiscordApi api = new DiscordApiBuilder()
                 .setToken(token)
+                .setAllIntents()
                 .login()
                 .join();
 
