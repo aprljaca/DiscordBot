@@ -15,7 +15,8 @@ public class DiscordConfiguration {
 
     @Bean
     public DiscordApi discordApi(MessageListener messageListener) {
-        String token = env.getProperty("TOKEN");
+        //dodati token u app.properties
+        String token = env.getProperty("token");
         DiscordApi api = new DiscordApiBuilder()
                 .setToken(token)
                 .setAllIntents()

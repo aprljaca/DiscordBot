@@ -27,12 +27,12 @@ public class MessageListener implements MessageCreateListener {
 
     @Override
     public void onMessageCreate(MessageCreateEvent event) {
+        // Komanda za povezivanje i reprodukciju
         if (event.getMessageContent().equalsIgnoreCase(".play")) {
             ServerVoiceChannel channel = event.getMessageAuthor().getConnectedVoiceChannel().get();
             channel.connect().thenAccept(audioConnection -> {
-                System.out.println(audioConnection.getChannel().getName());
-                // Create an audio source and add it to the audio connection's queue
 
+                // Kreiranje audio playera
                 AudioPlayerManager audioPlayerManager = new DefaultAudioPlayerManager();
                 audioPlayerManager.getConfiguration().setFrameBufferFactory(NonAllocatingAudioFrameBuffer::new);
                 AudioSourceManagers.registerRemoteSources(audioPlayerManager);
@@ -42,7 +42,7 @@ public class MessageListener implements MessageCreateListener {
                 AudioSource source = new LavaplayerAudioSource(playerManager.getApi(), audioPlayer);
                 audioConnection.setAudioSource(source);
 
-                // You can now use the AudioPlayer like you would normally do with Lavaplayer, e.g.,
+                // Učitavanje i reprodukcija audio sadržaja
                 audioPlayerManager.loadItem("https://radiomiljacka-bhcloud.radioca.st/stream.mp3", new AudioLoadResultHandler() {
                     @Override
                     public void trackLoaded(AudioTrack track) {
@@ -66,12 +66,30 @@ public class MessageListener implements MessageCreateListener {
                 });
 
             }).exceptionally(e -> {
-                // Failed to connect to voice channel (no permissions?)
+                // Neuspješno povezivanje sa glasovnim kanalom (nema dozvola?)
                 e.printStackTrace();
                 return null;
             });
         }
+
+        // Komanda za napuštanje kanala
+        if (event.getMessageContent().equalsIgnoreCase(".stop")) {
+            // Provjerava da li je bot povezan na neki glasovni kanal
+            if (event.getMessageAuthor().getConnectedVoiceChannel().isPresent()) {
+                ServerVoiceChannel currentChannel = event.getMessageAuthor().getConnectedVoiceChannel().get();
+                currentChannel.disconnect().thenRun(() -> {
+                }).exceptionally(e -> {
+                    // Greška pri napuštanju kanala
+                    e.printStackTrace();
+                    return null;
+                });
+            }
+        }
     }
+
+
+
+
 
 }
 

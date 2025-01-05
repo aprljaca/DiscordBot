@@ -34,7 +34,7 @@
         <dependency>
             <groupId>org.javacord</groupId>
             <artifactId>javacord</artifactId>
-            <version>3.7.0</version>
+            <version>3.8.0</version>
             <type>pom</type>
         </dependency>
 
@@ -52,13 +52,23 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.36</version>
+            <scope>provided</scope>
         </dependency>
 
+
+            <dependency>
+                <groupId>com.sedmelluq</groupId>
+                <artifactId>lavaplayer</artifactId>
+                <version>1.3.77</version>
+            </dependency>
+
         <dependency>
-            <groupId>com.sedmelluq</groupId>
-            <artifactId>lavaplayer</artifactId>
-            <version>1.3.77</version>
+            <groupId>net.dv8tion</groupId>
+            <artifactId>JDA</artifactId>
+            <version>5.0.0-beta.9</version> <!-- Koristite poslednju verziju -->
         </dependency>
+
 
     </dependencies>
 
